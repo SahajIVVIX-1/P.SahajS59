@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
 import { Github, Code2, Trophy, ExternalLink, Mail, Linkedin, Terminal as TerminalIcon, ChevronRight, BookOpen, Cpu, Shield, Brain } from 'lucide-react';
 import HeroBackground from './components/HeroBackground';
+import AIVisualization from './components/ai-visualization/AIVisualization';
+import Chatbot from './components/chatbot/Chatbot';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
@@ -59,8 +61,8 @@ export default function App() {
             SAHAJ<span className="text-primary">.</span>SALIYA
           </span>
           <div className="hidden md:flex gap-8 text-sm font-medium text-white/60">
-            {['About', 'Interests', 'Stats', 'Projects', 'Research', 'Timeline', 'Skills', 'Contact'].map(item => (
-              <a key={item} href={`#${item.toLowerCase()}`} className="hover:text-primary transition-colors">{item}</a>
+            {['About', 'Interests', 'Stats', 'AI', 'Projects', 'Research', 'Timeline', 'Skills', 'Contact'].map(item => (
+              <a key={item} href={`#${item === 'AI' ? 'ai-visualization' : item.toLowerCase()}`} className="hover:text-primary transition-colors">{item}</a>
             ))}
           </div>
           <a href="https://github.com/SahajIVVIX-1" target="_blank" rel="noreferrer" className="p-2 hover:bg-white/10 rounded-full transition-colors">
@@ -242,6 +244,9 @@ export default function App() {
           </Card>
         </div>
       </Section>
+
+      {/* AI Visualization */}
+      <AIVisualization />
 
       {/* Projects */}
       <Section id="projects">
@@ -447,6 +452,9 @@ export default function App() {
           ))}
         </div>
       </Section>
+
+      {/* AI Chatbot */}
+      <Chatbot />
 
       <footer className="py-12 border-t border-white/5 text-center text-white/20 text-sm font-mono">
         © 2025 SAHAJ SALIYA • BUILT WITH REACT & THREE.JS
