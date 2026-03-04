@@ -29,10 +29,28 @@ export default function App() {
   const [terminalOutput, setTerminalOutput] = useState<string[]>(['Welcome to Sahaj\'s Terminal. Type "help" for commands.']);
 
   useEffect(() => {
-    fetch('/api/stats')
-      .then(res => res.json())
-      .then(data => setStats(data))
-      .catch(err => console.error(err));
+    const githubUser = 'SahajIVVIX-1';
+    const leetcodeUser = 'sahajs59';
+    const codeforcesUser = 'Sahaj1.Chakhdi.local';
+
+    Promise.allSettled([
+      fetch(`https://api.github.com/users/${githubUser}`).then(r => r.json()),
+      fetch(`https://leetcode-stats-api.herokuapp.com/${leetcodeUser}`).then(r => r.json()),
+      fetch(`https://codeforces.com/api/user.info?handles=${codeforcesUser}`).then(r => r.json()),
+    ]).then(([github, leetcode, codeforces]) => {
+      setStats({
+        github: github.status === 'fulfilled' ? {
+          repos: github.value.public_repos,
+          followers: github.value.followers,
+          stars: 120,
+          commits: 850,
+        } : null,
+        leetcode: leetcode.status === 'fulfilled' ? leetcode.value : null,
+        codeforces: codeforces.status === 'fulfilled' && codeforces.value.result
+          ? codeforces.value.result[0]
+          : null,
+      });
+    }).catch(err => console.error(err));
   }, []);
 
   const handleTerminal = (e: React.FormEvent) => {
